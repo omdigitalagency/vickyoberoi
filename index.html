@@ -134,6 +134,23 @@ footer a{color:var(--gold2);word-break:break-all}
   .ticker{overflow-x:auto}
 }
 </style>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1020132254378341');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1020132254378341&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -204,7 +221,7 @@ footer a{color:var(--gold2);word-break:break-all}
 
 <script>
 /* ===================== EDIT THESE ===================== */
-var TELEGRAM_URL = "https://t.me/+UrsPG7hcUFVjZTZl";   // <- put your Telegram channel link here
+var TELEGRAM_URL = "https://t.me/your_channel_name";   // <- put your Telegram channel link here
 /* Logo: change src="logo.jpg" on the <img id="profileImg"> tag above (file name or full URL). */
 /* ====================================================== */
 
@@ -225,7 +242,12 @@ var TELEGRAM_URL = "https://t.me/+UrsPG7hcUFVjZTZl";   // <- put your Telegram c
     el.href = valid ? link : "#";
     if (id === "footLink" && valid) el.textContent = link.replace(/^https?:\/\//, "");
   });
-  document.getElementById("joinBtn").addEventListener("click", function (e) { if (!valid) e.preventDefault(); });
+  /* Meta Pixel: "Subscribe" event fires when someone taps a Join Telegram button */
+function trackSubscribe() { try { if (typeof fbq === "function") fbq("track", "Subscribe"); } catch (err) {} }
+["joinBtn", "footLink"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (el) el.addEventListener("click", function (e) { if (!valid) { e.preventDefault(); return; } trackSubscribe(); });
+  });
 
   document.getElementById("year").textContent = new Date().getFullYear();
 
